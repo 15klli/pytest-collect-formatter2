@@ -58,14 +58,16 @@ def check_children(hierarchy, l):
     return hierarchy
 
 
-def remove_keys_and_make_lists(hierarchy):
+def remove_keys_and_make_lists(hierarchy, is_with_remark):
     array = []
     for k, v in hierarchy.items():
-        v['children'] = remove_keys_and_make_lists(v['children'])
-        if v['type'] == "Function":  # since Function is the minimal unit in pytest
-            array.append({'type': v['type'], 'title': v['title'], "remark": v['remark']})
-        else:
-            array.append({'type': v['type'], 'title': v['title'], 'children': v['children'], "remark": v['remark']})
+        node = {'type': v['type'], 'title': v['title']}
+        array.append(node)
+        if is_with_remark:
+            node["remark"] = v['remark']
+        v['children'] = remove_keys_and_make_lists(v['children'], is_with_remark)
+        if v['type'] != "Function":  # since Function is the minimal unit in pytest
+            node['children'] = v['children']
     return array
 
 
@@ -115,6 +117,7 @@ def pytest_collection_finish(session):
     output_file = session.config.getoption('--collect-output-file')
     collect_format = session.config.getoption('--collect-format')
     collect_type = session.config.getoption('--collect-type')
+    is_with_remark = session.config.getoption('--with-remark')
     hierarchy = {}
     if output_file:
         if collect_type == 'classic':
@@ -122,10 +125,10 @@ def pytest_collection_finish(session):
         elif collect_type == 'path':
             hierarchy = path_collection(session)
 
-        hierarchy = remove_keys_and_make_lists(hierarchy)
+        hierarchy = remove_keys_and_make_lists(hierarchy, is_with_remark)
         abspath = os.path.abspath(output_file)
         dirname = os.path.dirname(abspath)
-        os.makedirs(dirname)
+        os.makedirs(name=dirname, exist_ok=True)
         with open(output_file, "w+") as f:
             if collect_format == 'json':
                 f.write(json.dumps(hierarchy, indent=4))
