@@ -3,8 +3,9 @@ pytest-collect-formatter2
 ========================
 
 
-**Fork From: https://github.com/LaserPhaser/pytest-collect-formatter2**
+**Fork From: https://github.com/LaserPhaser/pytest-collect-formatter**
 
+add remark collect
 
 
 Pytest plugin for formatting output of the collected tests.
@@ -63,32 +64,51 @@ JSON
 
     [
         {
-            "type": "path",
-            "title": "examples",
+            "type": "Module",
+            "title": "examples/tests/test_formatter/test_fromatter_v1.py",
             "children": [
                 {
-                    "type": "path",
-                    "title": "tests",
+                    "type": "Class",
+                    "title": "TestFormatter",
                     "children": [
                         {
-                            "type": "path",
-                            "title": "test_formatter",
-                            "children": [
-                                {
-                                    "type": "path",
-                                    "title": "test_fromatter_v1.py",
-                                    "children": [
-                                        {
-                                            "type": "pytest_unit",
-                                            "title": "TestFormatter",
-                                            "children": [
-                                                {
-                                                    "type": "pytest_unit",
-                                                    "title": "test_inside_class",
-                                                    "children": []
-                                                },
-                                                {
-    ...
+                            "type": "Function",
+                            "title": "test_inside_class",
+                            "remark": "this is remark"
+                        },
+                        {
+                            "type": "Function",
+                            "title": "test_inside_class_parametrize[1]",
+                            "remark": null
+                        },
+                        {
+                            "type": "Function",
+                            "title": "test_inside_class_parametrize[2]",
+                            "remark": null
+                        },
+                        {
+                            "type": "Function",
+                            "title": "test_inside_class_parametrize[3]",
+                            "remark": null
+                        },
+                        {
+                            "type": "Function",
+                            "title": "test_inside_class_parametrize[4]",
+                            "remark": null
+                        }
+                    ],
+                    "remark": null
+                },
+                {
+                    "type": "Function",
+                    "title": "test_outside_of_class",
+                    "remark": "this is remark 3"
+                }
+            ],
+            "remark": null
+        }
+    ]
+
 
 
 
