@@ -22,7 +22,7 @@ test_requirements = ['pytest', ]
 
 setup(
     author="lingo",
-    author_email='li.kanglin@bytedance.com',
+    author_email='likanglin@bytedance.com',
     classifiers=[
         'Framework :: Pytest',
         'Development Status :: 5 - Production/Stable',
@@ -42,7 +42,9 @@ setup(
         'pytest', 'py.test', 'yaml', 'json'
     ],
     name='pytest-collect-formatter2',
-    packages=find_packages(include=['pytest_collect_formatter2']),
+    package_dir={"": "src"},
+    packages=find_packages(where="src"),
+    python_requires=">=3.6",
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,

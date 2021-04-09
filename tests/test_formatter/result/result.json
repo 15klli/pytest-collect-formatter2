@@ -2,10 +2,12 @@
     {
         "type": "Module",
         "title": "examples/tests/test_formatter/test_fromatter_v1.py",
+        "remark": null,
         "children": [
             {
                 "type": "Class",
                 "title": "TestFormatter",
+                "remark": null,
                 "children": [
                     {
                         "type": "Function",
@@ -32,15 +34,13 @@
                         "title": "test_inside_class_parametrize[4]",
                         "remark": null
                     }
-                ],
-                "remark": null
+                ]
             },
             {
                 "type": "Function",
                 "title": "test_outside_of_class",
                 "remark": "this is remark 3"
             }
-        ],
-        "remark": null
+        ]
     }
 ]
