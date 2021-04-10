@@ -128,7 +128,7 @@ def pytest_collection_finish(session):
         abspath = os.path.abspath(output_file)
         dirname = os.path.dirname(abspath)
         os.makedirs(name=dirname, exist_ok=True)
-        with open(output_file, "w+") as f:
+        with open(output_file, "w+",encoding="utf-8") as f:
             if collect_format == 'json':
                 f.write(json.dumps(hierarchy, indent=4))
             elif collect_format == 'yaml':
