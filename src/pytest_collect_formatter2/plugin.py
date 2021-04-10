@@ -1,7 +1,6 @@
 import inspect
 import json
 import os
-import pathlib
 import xml.dom.minidom
 
 import dicttoxml
