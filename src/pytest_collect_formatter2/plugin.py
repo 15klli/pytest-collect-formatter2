@@ -1,6 +1,7 @@
 import inspect
 import json
 import os
+import pathlib
 import xml.dom.minidom
 
 import dicttoxml
@@ -40,7 +41,8 @@ def check_parent(item, item_data):
             "type": type(item).__name__,
             "title": item.name,
             "remark": get_item_remark(item),
-            "children": item_data
+            "children": item_data,
+            "nodeId": item.nodeid,
         }}
     if item.parent is not None:
         item_data = check_parent(item.parent, item_data)
@@ -63,7 +65,8 @@ def remove_keys_and_make_lists(hierarchy, is_with_remark):
         node = {'type': v['type'], 'title': v['title']}
         array.append(node)
         if is_with_remark:
-            node["remark"] = v['remark']
+            node["remark"] = v.get("remark")
+        node["nodeId"] = v.get("nodeId")
         v['children'] = remove_keys_and_make_lists(v['children'], is_with_remark)
         if v['type'] != "Function":  # since Function is the minimal unit in pytest
             node['children'] = v['children']
@@ -98,7 +101,7 @@ def path_collection(session):
         pytest_items.reverse()
         path.reverse()
         for p in pytest_items:
-            l = {"pytest_unit" + p: {"type": "pytest_unit", "title": p, "children": cur_h}}
+            l = {"pytest_unit" + p: {"type": "pytest_unit", "title": p, "children": cur_h, }}
             cur_h = l
         for p in path:
             l = {"path" + p: {"type": "path", "title": p, "children": cur_h}}
@@ -128,7 +131,7 @@ def pytest_collection_finish(session):
         abspath = os.path.abspath(output_file)
         dirname = os.path.dirname(abspath)
         os.makedirs(name=dirname, exist_ok=True)
-        with open(output_file, "w+",encoding="utf-8") as f:
+        with open(output_file, "w+", encoding="utf-8") as f:
             if collect_format == 'json':
                 f.write(json.dumps(hierarchy, indent=4))
             elif collect_format == 'yaml':
